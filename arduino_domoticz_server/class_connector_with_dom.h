@@ -136,7 +136,7 @@ class Class_connector_with_dom
 	struct receive_dom_change_struct  deserialize_url(String url){
 		 struct receive_dom_change_struct my_struct;
 		 //format type "GET /type=switch&idx=2&action=0 HTTP/1.1"
-		 Log::msg_network_OK(url + "\n");
+		 Log::msg_network_OK("Receive from domoticz : " + url + "\n");
 		 int pos_esperluette = url.indexOf('&', 0);
 		 int pos_equal = url.indexOf('=', 0);
 		 String type_s = url.substring(pos_equal+1, pos_esperluette);

@@ -6,7 +6,7 @@
 #endif
 
 #include "Class_log_message.h"
-#include "class_74HC595.h"
+#include "class_pcf8574.h"
 #include "class_connector_with_dom.h"
   
     /**
@@ -18,10 +18,10 @@
   {
 	  
   private :
-	Class_74HC595* 	relay_board;
+	Class_pcf8574* 	pcf_extender;
 	bool			value;
 	String		IDX;
-	byte 			            pos_on_relay_board;
+	byte 			            pos_on_extender;
 	Class_connector_with_dom* 	Com_with_dom;
 
 	
@@ -30,21 +30,20 @@
     /**
      *  \brief Brief Constuctor before use
      *  
-     *  \param [in] relay_board : A relay board which must be create before see Class_74HC595 for more inof
+     *  \param [in] pcf_extender : A extender to connect to relay
+     *  \param [in] pos_on_extender : position on relay board in Class_74HC595
      *  \param [in] Com_with_dom : A class connector with domoticz, see class_connector_with_dom.h for more info
      *  \param [in] IDX : the id of virtual sensor in domoticz, see setup->devices in web page of domoticz
-     *  \param [in] pos_on_relay_board : position on relay board in Class_74HC595
      *  \return Return description
      *  
      *  \details More details
      */
-    Class_controlled_switch_dom(Class_74HC595* relay_board, Class_connector_with_dom* Com_with_dom, int IDX, byte pos_on_relay_board) 
+    Class_controlled_switch_dom(Class_pcf8574* pcf_extender, byte pos_on_extender, Class_connector_with_dom* Com_with_dom, int IDX) 
     {
-    this->relay_board   		  = relay_board;
-    this->Com_with_dom       = Com_with_dom;
+    this->pcf_extender   		  = pcf_extender;
+    this->Com_with_dom        = Com_with_dom;
 	  this->IDX 		  		      = String(IDX, DEC); 
-	  this->pos_on_relay_board 	= pos_on_relay_board;
-	  this->value		  		      =relay_board->get_one_output(pos_on_relay_board);
+	  this->pos_on_extender 	= pos_on_extender;
     set_val(false);
     send_val_to_Domoticz();
     
@@ -73,7 +72,7 @@
 	 */
 	void set_val(bool value){
 		this->value = value;
-		if ( relay_board->set_one_output(pos_on_relay_board, value) ) send_val_to_Domoticz();
+		if ( pcf_extender->set_one_output(pos_on_extender, value) ) send_val_to_Domoticz();
 	}
 
 

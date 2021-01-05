@@ -52,7 +52,7 @@ public :
         #ifdef USE_SERIAL
           Serial.begin(BAUD_RATE);
         #endif    
-         
+ 
          
          //test SD and create file
          if (!SD.begin(SD_PIN)) {
